@@ -48,18 +48,27 @@ def schedule_cost(population, elite):
         conflict = 0
         for i in range(0, n - 1):
             for j in range(i + 1, n):
-                # check course in same time and same room 
-                if p[i].roomId == p[j].roomId and p[i].weekDay == p[j].weekDay and p[i].slot == p[j].slot:
+                # 硬约束条件3: 同一时间,一个教室只能上一门课程
+                # if p[i].roomId == p[j].roomId and p[i].weekDay == p[j].weekDay and p[i].slot == p[j].slot:
+                #     conflict += 1
+
+                # 硬约束条件1: 同一时间,一个班级只能上一门课程
+                if p[i].classId == p[j].classId and p[i].courseId == p[j].courseId and p[i].weekDay == p[j].weekDay and p[i].slot == p[j].slot:
                     conflict += 1
-                # check course for one class in same time
-                if p[i].classId == p[j].classId and p[i].weekDay == p[j].weekDay and p[i].slot == p[j].slot:
-                    conflict += 1
-                # check course for one teacher in same time
+                # 硬约束条件2: 同一时间,一个教师只能上一门课程
                 if p[i].teacherId == p[j].teacherId and p[i].weekDay == p[j].weekDay and p[i].slot == p[j].slot:
                     conflict += 1
-                # check same course for one class in same day
-                if p[i].classId == p[j].classId and p[i].courseId == p[j].courseId and p[i].weekDay == p[j].weekDay:
-                    conflict += 1
+                # # check same course for one class in same day
+                # if p[i].classId == p[j].classId and p[i].courseId == p[j].courseId and p[i].weekDay == p[j].weekDay:
+                #     conflict += 1
+
+                # todo 软约束条件1: 满足个别教师的特殊上课时间需求
+
+                # todo 软约束条件2: 同一门课程尽量平均分散在一周里
+
+                # todo 软约束条件3: 同一个教师的课不能排满一整天
+
+                # todo 软约束条件4: 同一个教师的课不能排满一整天(师生都很累)
 
         conflicts.append(conflict)
 
